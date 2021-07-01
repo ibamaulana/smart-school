@@ -1,0 +1,36 @@
+<template>
+  <div class="container-fluid layout vh-100 bg-white" >
+    <child />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BasicLayout'
+}
+</script>
+
+<style lang="scss">
+.layout{
+background-image:url('/img/bg-vector.png');
+background-size:cover;
+background-position-y:500px;
+background-repeat: no-repeat;
+}
+.basic-layout {
+  color: #636b6f;
+  height: 100vh;
+  font-weight: 100;
+  position: relative;
+
+  .links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+}
+</style>

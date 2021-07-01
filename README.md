@@ -1,2 +1,2 @@
 # smart-school
-Smart School 
+Smart School by ibamaulana
