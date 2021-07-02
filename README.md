@@ -13,10 +13,11 @@ Smart School by ibamaulana
 
 ## Installation
 
-- `composer create-project --prefer-dist cretueusebiu/laravel-vue-spa`
+- `composer install`
 - Edit `.env` and set your database connection details
-- (When installed via git clone or download, run `php artisan key:generate` and `php artisan jwt:secret`)
+- `php artisan key:generate` and `php artisan jwt:secret`
 - `php artisan migrate`
+- `php artisan db:seed` (seeding for role)
 - `npm install`
 
 ## Usage
