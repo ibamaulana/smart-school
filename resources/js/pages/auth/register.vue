@@ -5,6 +5,13 @@
         <div class="alert alert-success" role="alert">
           {{ $t('verify_email_address') }}
         </div>
+        <div class="row" >
+          <div class="col-md-12 text-center">
+              <router-link to="/login" class="btn btn-white"> 
+                <i class="fe fe-arrow-left mr-3"></i>Back to Login
+              </router-link>
+            </div>
+        </div>
       </card>
       <card v-else class="p-4">
         <div class="row">
