@@ -1,24 +1,30 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
+  <div class="row vh-100 align-items-center justify-content-center">
+    <div class="col-lg-4 m-auto">
       <card :title="$t('verify_email')">
         <template v-if="success">
           <div class="alert alert-success" role="alert">
             {{ success }}
           </div>
-
-          <router-link :to="{ name: 'login' }" class="btn btn-primary">
-            {{ $t('login') }}
-          </router-link>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <router-link :to="{ name: 'login' }" class="btn btn-white">
+                <i class="fe fe-arrow-left mr-3"></i> Back to Login
+              </router-link>
+            </div>
+          </div>
         </template>
         <template v-else>
           <div class="alert alert-danger" role="alert">
             {{ error || $t('failed_to_verify_email') }}
           </div>
-
-          <router-link :to="{ name: 'verification.resend' }" class="small float-right">
-            {{ $t('resend_verification_link') }}
-          </router-link>
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <router-link :to="{ name: 'verification.resend' }" class="btn btn-white">
+                {{ $t('resend_verification_link') }}
+              </router-link>
+            </div>
+          </div>
         </template>
       </card>
     </div>
@@ -40,7 +46,7 @@ export default {
       next(vm => { vm.error = e.response.data.status })
     }
   },
-
+  layout:'basic',
   middleware: 'guest',
 
   metaInfo () {

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\VerifyEmailException;
 use App\Http\Controllers\Controller;
+use App\Models\School;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -96,5 +98,47 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $this->guard()->logout();
+    }
+
+    public function auth(Request $request){
+        $validator = Validator::make($request->all(), [
+            'school_code' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+        ])->validate();
+        
+        //check school code
+        $school_code = School::where('school_code',$request->school_code)->first();
+        if(!$school_code){
+            throw ValidationException::withMessages([
+                'school_code' => 'Code is not registered on our system.',
+            ]);
+        }
+
+        //cek username and passsword
+        $token = $this->guard()->attempt(['username' => $request->username,'password' => $request->password]);
+        if (!$token) {
+            throw ValidationException::withMessages([
+                'username' => 'Username or password is wrong.',
+            ]);
+        }
+
+        //check verified
+        $user = $this->guard()->user();
+        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+            throw ValidationException::withMessages([
+                'username' => 'Your account still not verified',
+            ]);
+        }
+
+        $this->guard()->setToken($token);
+        $token = (string) $this->guard()->getToken();
+        $expiration = $this->guard()->getPayload()->get('exp');
+
+        return response()->json([
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $expiration - time(),
+        ]);
     }
 }

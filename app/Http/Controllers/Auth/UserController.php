@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function data(Request $request)
     {   
-        $user = User::with('school','role');
+        $user = User::with('school','role')->where('school_id',$request->user()->school_id)->where('id','!=',$request->user()->id);
         if($request->role_id){
             $user = $user->where('role_id',$request->role_id);
         }
@@ -44,16 +44,17 @@ class UserController extends Controller
             'email' => 'required|email:filter|max:255|unique:users',
             'role' => 'required'
         ])->validate();
-        $password = $request->username.rand(0,100);
+    
         $user = new User();
         $user->username = $request->username;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->school_id = $request->user()->school_id;
         $user->role_id = $request->role;
-        $user->password = bcrypt($request->username.$password);
+        $user->password = bcrypt($request->username.$request->user()->school->school_code);
 
         if($user->save()){
+            $user->sendEmailVerificationNotification();
             return response()->json([
                 'status' => 'Success !',
                 'messsage' => 'Data Created'

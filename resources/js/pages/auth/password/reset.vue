@@ -1,10 +1,12 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
+  <div class="row vh-100 align-items-center justify-content-center">
+    <div class="col-lg-4 ">
       <card :title="$t('reset_password')">
-        <form @submit.prevent="reset" @keydown="form.onKeydown($event)">
-          <alert-success :form="form" :message="status" />
+        
+        <alert-success :form="form" :message="status" />
 
+        <form @submit.prevent="reset" @keydown="form.onKeydown($event)" v-if="!status">
+          
           <!-- Email -->
           <div class="form-group row">
             <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
@@ -41,6 +43,13 @@
             </div>
           </div>
         </form>
+        <div class="row" v-else>
+          <div class="col-md-12 text-center">
+              <router-link to="/login" class="btn btn-white"> 
+                <i class="fe fe-arrow-left mr-3"></i>Back to Login
+              </router-link>
+            </div>
+        </div>
       </card>
     </div>
   </div>
@@ -51,7 +60,7 @@ import Form from 'vform'
 
 export default {
   middleware: 'guest',
-
+  layout:'basic',
   metaInfo () {
     return { title: this.$t('reset_password') }
   },

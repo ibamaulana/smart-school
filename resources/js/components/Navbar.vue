@@ -22,6 +22,19 @@
             </router-link>
           </li>
         </ul>
+        <hr class="navbar-divider my-3">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link class="nav-link " to="/settings" >
+              <i class="fe fe-user"></i> Account
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#logout-modal">
+              <i class="fe fe-log-out"></i>Logout
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>

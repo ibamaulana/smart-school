@@ -6,6 +6,7 @@
           v-bind:class="{
             'active' : role === 2
           }"
+          v-if="user.role_id == 1 || user.role_id == 2"
         >
             <a href="javascript:void(0)" class="nav-link"
               v-bind:class="{
@@ -41,6 +42,9 @@
           createurl='/api/user/submit'
           updateurl='/api/user/update'
           deleteurl='api/user/delete'
+          :is_create="user.role_id == 1 ? true : false"
+          :is_action="user.role_id == 1 ? true : false"
+
           />
         </div>
       </div>
@@ -118,6 +122,45 @@ export default {
   }),
   metaInfo () {
     return { title: this.$t('home') }
+  },
+  beforeMount () {
+    if(this.user.role_id == 1 ){
+      this.role = 2
+      this.fields = [
+        { key: 'name', label: 'Name', sortable: true, sortDirection: 'asc' },
+        { key: 'username', label: 'Username', sortable: true, class: 'text-left' },
+        { key: 'email', label: 'Email', sortable: true, class: 'text-left' },
+        {
+          key: 'email_verified_at',
+          label: 'Is Active',
+          class: 'text-center',
+          sortable: true,
+          sortByFormatted: true,
+          filterByFormatted: true
+        },
+        { key: 'actions', label: 'Actions',class:'text-center' }
+      ]
+    }else if(this.user.role_id == 2){
+      this.role = 2
+      this.fields = [
+        { key: 'name', label: 'Name', sortable: true, sortDirection: 'asc' },
+        { key: 'email', label: 'Email', sortable: true, class: 'text-left' },
+        {
+          key: 'email_verified_at',
+          label: 'Is Active',
+          class: 'text-center',
+          sortable: true,
+          sortByFormatted: true,
+          filterByFormatted: true
+        },
+      ]
+    }else{
+      this.role = 3
+      this.fields = [
+        { key: 'name', label: 'Name', sortable: true, sortDirection: 'asc' },
+        { key: 'email', label: 'Email', sortable: true, class: 'text-left' },
+      ]
+    }
   },
   methods:{
     changeRole(role){

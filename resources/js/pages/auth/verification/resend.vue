@@ -1,9 +1,10 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
+  <div class="row vh-100 align-items-center justify-content-center">
+    <div class="col-lg-4 m-auto">
       <card :title="$t('verify_email')">
-        <form @submit.prevent="send" @keydown="form.onKeydown($event)">
-          <alert-success :form="form" :message="status" />
+        <alert-success :form="form" :message="status" />
+
+        <form @submit.prevent="send" @keydown="form.onKeydown($event)" v-if="!status">
 
           <!-- Email -->
           <div class="form-group row">
@@ -23,6 +24,13 @@
             </div>
           </div>
         </form>
+        <div class="row" v-else>
+          <div class="col-md-12 text-center">
+              <router-link to="/login" class="btn btn-white"> 
+                <i class="fe fe-arrow-left mr-3"></i>Back to Login
+              </router-link>
+            </div>
+        </div>
       </card>
     </div>
   </div>
@@ -33,7 +41,7 @@ import Form from 'vform'
 
 export default {
   middleware: 'guest',
-
+  layout:'basic',
   metaInfo () {
     return { title: this.$t('verify_email') }
   },

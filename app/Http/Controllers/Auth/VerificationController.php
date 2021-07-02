@@ -41,7 +41,7 @@ class VerificationController extends Controller
                 'status' => trans('verification.already_verified'),
             ], 400);
         }
-
+        
         $user->markEmailAsVerified();
 
         event(new Verified($user));

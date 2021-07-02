@@ -7,7 +7,7 @@ use Illuminate\Auth\Notifications\VerifyEmail as Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class VerifyEmail extends Notification
+class VerifyEmailUsers extends Notification
 {
     /**
      * Get the verification URL for the given notifiable.

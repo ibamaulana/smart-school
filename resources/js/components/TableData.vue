@@ -42,7 +42,7 @@
       </div>
     </div>
   </b-modal>
-  <div class="row mb-3">
+  <div class="row mb-3" v-if="is_create">
     <div class="col text-right">
       <b-button v-b-modal.data-modal @click="createData()">Create Data</b-button>
     </div>
@@ -55,8 +55,9 @@
       :per-page="perPage"
       :current-page="currentPage"
       small
+      striped
     >
-      <template #cell(actions)="row">
+      <template #cell(actions)="row" v-if="is_action">
         <b-button v-b-modal.data-modal size="sm" @click="detailData(row.item)" class="mr-1">
           Edit
         </b-button>
@@ -64,9 +65,14 @@
            Delete
         </b-button>
       </template>
+      <template #cell(email_verified_at)="row" >
+        <b v-if="row.item.email_verified_at == null" class="text-danger">Pending</b>
+        <b v-else class="text-success">Active</b>
+
+      </template>
     </b-table>
   </div>
-  <b-pagination
+  <b-pagination class="float-right"
     v-model="currentPage"
     :total-rows="rows"
     :per-page="perPage"
@@ -90,7 +96,9 @@ export default {
     deleteurl:null,
     detailurl:null,
     param:{},
-    formfield:[]
+    formfield:[],
+    is_create:true,
+    is_action:true
   },
   watch: {
     param: function(){
@@ -169,8 +177,8 @@ export default {
         console.log(err)
       })
     },
-    async submitData(type) {
-      const { data } = await this.form.post(type === 'submit' ?this.createurl : this.updateurl)
+    async submitData() {
+      const { data } = await this.form.post(this.type === 'submit' ? this.createurl : this.updateurl)
 
       if(data){
         this.$bvToast.toast(data.message, {

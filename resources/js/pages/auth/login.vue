@@ -14,10 +14,18 @@
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">
 
           <div class="form-group ">
-            <label class="text-md-right">{{ $t('email') }}</label>
+            <label class="text-md-right">School Code</label>
             <div class="">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
+              <input v-model="form.school_code" :class="{ 'is-invalid': form.errors.has('school_code') }" class="form-control" type="text" name="school_code">
+              <has-error :form="form" field="school_code" />
+            </div>
+          </div>
+
+          <div class="form-group ">
+            <label class="text-md-right">Username</label>
+            <div class="">
+              <input v-model="form.username" :class="{ 'is-invalid': form.errors.has('username') }" class="form-control" type="text" name="username">
+              <has-error :form="form" field="username" />
             </div>
           </div>
 
